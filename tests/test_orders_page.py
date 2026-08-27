@@ -10,6 +10,7 @@ from pages.main_page import MainPage
 class TestOrdersPage:
 
     @allure.story("При создании нового заказа счётчик 'Выполнено за всё время' увеличивается")
+    @allure.title("Счётчик 'Выполнено за всё время' увеличивается при создании заказа")
     def test_all_orders_counter(self, driver, auth_user):
         token, _ = auth_user
 
@@ -39,6 +40,7 @@ class TestOrdersPage:
 
 
     @allure.story("При создании нового заказа счётчик 'Выполнено за сегодня' увеличивается")
+    @allure.title("Счётчик 'Выполнено за сегодня' увеличивается при создании заказа")
     def test_today_orders_counter(self, driver, auth_user):
         token, _ = auth_user
     
@@ -68,6 +70,7 @@ class TestOrdersPage:
 
 
     @allure.story("Номер заказа появляется в разделе 'В работе'")
+    @allure.title("Номер заказа отображается в разделе 'В работе' после создания")
     def test_order_number_in_progress(self, driver, auth_user):
         token, _ = auth_user
 
