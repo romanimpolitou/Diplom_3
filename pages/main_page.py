@@ -61,10 +61,9 @@ class MainPage(BasePage):
     @allure.step("Посмотреть номер заказа в разделе 'В работе'")
     def get_order_in_progress(self, order_number, timeout=5):
         locator = (By.XPATH, f"//p[text()='{order_number}']")
-        wait = WebDriverWait(self.driver, timeout)
         try:
-            return wait.until(EC.visibility_of_element_located(locator))
-        except:
+            return self.waiting_for_element_visible(locator, timeout=timeout)
+        except Exception:
             return None
 
 
