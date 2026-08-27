@@ -1,5 +1,3 @@
-import time
-
 import allure
 
 from helpers.api_helpers import create_order
@@ -25,18 +23,11 @@ class TestOrdersPage:
             ingredients = ["61c0c5a71d1f82001bdaaa6d"]
             create_order(token, ingredients)
 
-        start = time.time()
-        timeout = 30
-        new_quantity = quantity
+        with allure.step("Дождаться увеличения счётчика"):
+            main_page.wait_all_orders_counter_increase(quantity)
 
-        while time.time() - start < timeout:
-            new_quantity = int(main_page.get_all_orders_counter())
-            if new_quantity > quantity:
-                break
-            time.sleep(1)
-
-        with allure.step("Проверка, что счётчик увеличился"):
-            assert new_quantity > quantity
+        new_quantity = int(main_page.get_all_orders_counter())
+        assert new_quantity > quantity
 
 
     @allure.story("При создании нового заказа счётчик 'Выполнено за сегодня' увеличивается")
@@ -55,18 +46,11 @@ class TestOrdersPage:
             ingredients = ["61c0c5a71d1f82001bdaaa6d"]
             create_order(token, ingredients)
     
-        start = time.time()
-        timeout = 30
-        new_quantity = quantity
-
-        while time.time() - start < timeout:
-            new_quantity = int(main_page.get_today_orders_counter())
-            if new_quantity > quantity:
-                break
-            time.sleep(1)
+        with allure.step("Дождаться увеличения счётчика"):
+            main_page.wait_today_orders_counter_increase(quantity)
     
-        with allure.step("Проверка, что счётчик увеличился"):
-            assert new_quantity > quantity
+        new_quantity = int(main_page.get_today_orders_counter())
+        assert new_quantity > quantity
 
 
     @allure.story("Номер заказа появляется в разделе 'В работе'")
@@ -86,5 +70,4 @@ class TestOrdersPage:
         with allure.step("Ждать появления заказа в ленте"):
             order_in_progress = main_page.get_order_in_progress(order_number)
 
-        with allure.step("Проверить номер заказа"):
-            assert order_in_progress is not None, f"Заказ №{order_number} не найден в ленте"
+        assert order_in_progress is not None, f"Заказ №{order_number} не найден в ленте"

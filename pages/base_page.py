@@ -55,3 +55,9 @@ class BasePage:
         drag_from = self.driver.find_element(*source)
         drag_to = self.driver.find_element(*target)
         self.driver.execute_script(DRAG_AND_DROP_SCRIPT, drag_from, drag_to)
+
+
+    @allure.step("Дождаться увеличения значения элемента")
+    def wait_until_value_increases(self, locator, old_value, timeout=30):
+        wait = WebDriverWait(self.driver, timeout)
+        return wait.until(lambda d: int(d.find_element(*locator).text) > int(old_value))

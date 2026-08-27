@@ -41,11 +41,21 @@ class MainPage(BasePage):
     @allure.step("Посмотреть счётчик 'Выполнено за всё время'")
     def get_all_orders_counter(self):
         return self.text_of_element(MainPageLocators.all_orders)
+    
+
+    @allure.step("Дождаться увеличения счётчика 'Выполнено за всё время'")
+    def wait_all_orders_counter_increase(self, old_value, timeout=30):
+        self.wait_until_value_increases(MainPageLocators.all_orders, old_value, timeout)
 
 
     @allure.step("Посмотреть счётчик 'Выполнено за сегодня'")
     def get_today_orders_counter(self):
         return self.text_of_element(MainPageLocators.today_orders)
+
+
+    @allure.step("Дождаться увеличения счётчика 'Выполнено за сегодня'")
+    def wait_today_orders_counter_increase(self, old_value, timeout=30):
+        self.wait_until_value_increases(MainPageLocators.today_orders, old_value, timeout)
 
 
     @allure.step("Посмотреть номер заказа в разделе 'В работе'")
