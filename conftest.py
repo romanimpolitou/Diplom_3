@@ -1,3 +1,5 @@
+import logging
+
 import pytest
 import requests
 from selenium import webdriver
@@ -36,6 +38,7 @@ def driver(request):
     yield driver
     driver.quit()
 
+logger = logging.getLogger(__name__)
 
 @pytest.fixture
 def auth_user(api_client):
@@ -47,4 +50,10 @@ def auth_user(api_client):
             try:
                 delete_user(token)
             except Exception as e:
-                print(f"Не удалось удалить тестового пользователя: {e}")
+                logger.error(
+                    "Не удалось удалить тестового пользователя. "
+                    "Токен (первые 10 символов): %s..., ошибка: %s",
+                    token[:10],
+                    e,
+                    exc_info=True
+                )
